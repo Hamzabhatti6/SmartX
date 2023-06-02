@@ -1,0 +1,73 @@
+package com.hamza.smartx.adapters
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.hamza.smartx.R
+import com.hamza.smartx.models.WidgetModel
+import java.util.ArrayList
+import javax.inject.Inject
+import com.hamza.smartx.BR
+
+
+class WidgetsAdapter @Inject constructor() : RecyclerView.Adapter<WidgetsAdapter.RecyclerViewHolder>() {
+
+    private val listItems = mutableListOf<WidgetModel>()
+    private var genericRecyclerViewInteraction: GenericRecyclerViewInteraction? = null
+
+    fun setConfig(
+        genericRecyclerViewInteraction: GenericRecyclerViewInteraction,
+    ) {
+        this.genericRecyclerViewInteraction = genericRecyclerViewInteraction
+    }
+
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): RecyclerViewHolder {
+        val binding = DataBindingUtil.inflate<ViewDataBinding>(
+            LayoutInflater.from(parent.context),
+            R.layout.item_widget,
+            parent,
+            false
+        )
+        return RecyclerViewHolder(binding.root, parent.context)
+    }
+
+    @SuppressLint("RecyclerView")
+    override fun onBindViewHolder(holder: RecyclerViewHolder, position: Int) {
+        val item = listItems[position]
+        holder.binding?.setVariable(BR.model, item)
+        holder.binding?.executePendingBindings()
+
+        holder.itemView.setOnClickListener {
+            genericRecyclerViewInteraction?.onItemClicked(position)
+        }
+    }
+
+    fun updateList(items: ArrayList<WidgetModel>) {
+        this.listItems.clear()
+        this.listItems.addAll(items)
+        notifyDataSetChanged()
+    }
+
+    override fun getItemCount(): Int = listItems.size ?: -1
+
+    inner class RecyclerViewHolder(view: View?, var c: Context) : RecyclerView.ViewHolder(view!!) {
+        var binding: ViewDataBinding?
+
+        init {
+            binding = DataBindingUtil.bind(view!!)
+        }
+    }
+}
+
+interface GenericRecyclerViewInteraction {
+    fun onItemClicked(position: Int)
+}

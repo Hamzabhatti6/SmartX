@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="model"
+            type="com.hamza.smartx.models.ControlsModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dimen_100"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dimen_10"
+    android:layout_marginEnd="@dimen/dimen_10"
+    android:layout_marginBottom="@dimen/dimen_10"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_control"
+        android:layout_width="@dimen/dimen_50"
+        android:layout_height="@dimen/dimen_50"
+        android:padding="@dimen/dimen_10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@{model.enable? @drawable/bg_control_on : @drawable/bg_control_off}"
+        app:layout_constraintEnd_toEndOf="parent"
+        load_image="@{model.image}"
+        />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:maxLines="1"
+        android:text="@{model.name}"
+        android:textColor="@{model.enable? @color/green : @color/text}"
+        app:layout_constraintTop_toBottomOf="@+id/iv_control"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
