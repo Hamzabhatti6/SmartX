@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.hamza.smartx.R
 import com.hamza.smartx.adapters.ControlAdapter
 import com.hamza.smartx.adapters.WidgetsAdapter
@@ -29,8 +30,10 @@ class DetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.run {
-            getInt("position").let {
-                widget =  widgetsViewModel.widgetList[it]
+            getInt("position").let { position ->
+               widgetsViewModel.getWidgetsList { list ->
+                   widget = list!![position]
+                }
             }
 
         }
@@ -50,10 +53,10 @@ class DetailFragment : Fragment() {
     }
 
     private fun init(){
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
         binding.tvWidget.text = widget.name
-
-
-
         controlsList.add(ControlsModel("Air(L)",true,R.drawable.ic_ac))
         controlsList.add(ControlsModel("Air(R)",false,R.drawable.ic_fan))
         controlsList.add(ControlsModel("L n R(L)",false,R.drawable.ic_camera))

@@ -1,14 +1,17 @@
 package com.hamza.smartx.ui.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hamza.smartx.R
 import com.hamza.smartx.models.WidgetModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @HiltViewModel
-class WidgetsViewModel : ViewModel() {
+class WidgetsViewModel @Inject constructor() : ViewModel() {
 
     val widgetList : ArrayList<WidgetModel> = ArrayList()
 
